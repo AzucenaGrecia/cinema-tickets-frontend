@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "title": "The Shawshank Redemption",
+    "year": 1994,
+    "director": "Frank Darabont",
+    "description": "Un banquero es encarcelado injustamente y encuentra la esperanza en la prisión. Una historia de amistad y redención dentro de los muros de Shawshank."
+  },
+  {
+    "id": 2,
+    "title": "The Godfather",
+    "year": 1972,
+    "director": "Francis Ford Coppola",
+    "description": "La historia de la familia Corleone y su ascenso en la mafia. Poder, traición y honor en una de las películas más icónicas del cine."
+  },
+  {
+    "id": 3,
+    "title": "The Dark Knight",
+    "year": 2008,
+    "director": "Christopher Nolan",
+    "description": "Batman enfrenta al Joker, un criminal anárquico que sumerge Gotham en el caos. Un thriller oscuro y magistralmente interpretado."
+  },
+  {
+    "id": 4,
+    "title": "Inception",
+    "year": 2010,
+    "director": "Christopher Nolan",
+    "description": "Un ladrón experto en robar secretos a través de los sueños debe implantar una idea en la mente de un hombre. ¿Sueño o realidad?"
+  },
+  {
+    "id": 5,
+    "title": "Pulp Fiction",
+    "year": 1994,
+    "director": "Quentin Tarantino",
+    "description": "Historias entrelazadas de crimen y redención en Los Ángeles, con diálogos brillantes y una narrativa no lineal que revolucionó el cine."
+  },
+  {
+    "id": 6,
+    "title": "Fight Club",
+    "year": 1999,
+    "director": "David Fincher",
+    "description": "Un hombre insomne y un vendedor de jabón carismático crean un club de peleas clandestino que se convierte en un movimiento anarquista."
+  },
+  {
+    "id": 7,
+    "title": "Forrest Gump",
+    "year": 1994,
+    "director": "Robert Zemeckis",
+    "description": "La vida de un hombre con una mente simple que presencia y participa en momentos clave de la historia de EE.UU. con un corazón puro."
+  },
+  {
+    "id": 8,
+    "title": "The Matrix",
+    "year": 1999,
+    "director": "Lana Wachowski, Lilly Wachowski",
+    "description": "Un hacker descubre que el mundo en el que vive es una simulación y debe decidir si sigue la verdad o regresa a la ilusión."
+  },
+  {
+    "id": 9,
+    "title": "Interstellar",
+    "year": 2014,
+    "director": "Christopher Nolan",
+    "description": "Un grupo de astronautas viaja a través de un agujero de gusano en busca de un nuevo hogar para la humanidad, mientras el tiempo se distorsiona."
+  },
+  {
+    "id": 10,
+    "title": "Gladiator",
+    "year": 2000,
+    "director": "Ridley Scott",
+    "description": "Un general romano traicionado se convierte en gladiador y busca vengar la muerte de su familia y la caída de Roma ante la corrupción."
+  },
+  {
+    "id": 11,
+    "title": "Schindler's List",
+    "year": 1993,
+    "director": "Steven Spielberg",
+    "description": "Basada en hechos reales, cuenta la historia de un empresario alemán que salvó a más de mil judíos durante el Holocausto."
+  },
+  {
+    "id": 12,
+    "title": "The Silence of the Lambs",
+    "year": 1991,
+    "director": "Jonathan Demme",
+    "description": "Una agente del FBI busca la ayuda de un brillante pero peligroso asesino en serie, Hannibal Lecter, para atrapar a otro criminal."
+  }
+]

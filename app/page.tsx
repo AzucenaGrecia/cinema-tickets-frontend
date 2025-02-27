@@ -1,60 +1,30 @@
-import Image from "next/image";
+"use client";
 
+import Image from "next/image";
+import movies from "../data/movies.json";
+import { useRouter } from "next/navigation";
 export default function Page() {
-  const listOfMovies = [
-    {
-      title: "The Shawshank Redemption",
-      year: 1994,
-      director: "Frank Darabont",
-    },
-    {
-      title: "The Godfather",
-      year: 1972,
-      director: "Francis Ford Coppola",
-    },
-    {
-      title: "The Dark Knight",
-      year: 2008,
-      director: "Christopher Nolan",
-    },
-    {
-      title: "The Dark Knight",
-      year: 2008,
-      director: "Christopher Nolan",
-    },
-    {
-      title: "The Shawshank Redemption",
-      year: 1994,
-      director: "Frank Darabont",
-    },
-    {
-      title: "The Godfather",
-      year: 1972,
-      director: "Francis Ford Coppola",
-    },
-    {
-      title: "The Dark Knight",
-      year: 2008,
-      director: "Christopher Nolan",
-    },
-    {
-      title: "The Dark Knight",
-      year: 2008,
-      director: "Christopher Nolan",
-    },
-  ];
+  const router = useRouter();
+
+  const handleMovieClick = (title: string) => {
+    router.push(`/movie/${encodeURIComponent(title)}`);
+  };
 
   return (
     <div className="flex flex-col gap-12 p-20 ">
       <div className=" text-cyan-900 text-5xl text-center">
-      ¡Bienvenido a CineTicket Pro! 🎬
+        ¡Bienvenido a CineTicket Pro! 🎬
       </div>
 
       <div className="bg-fuchsia-50 self-center p-8 rounded-xl w-150">
         <p className="text-2xl pb-8">Selecciona que pelicula veras hoy:</p>
         <div className="grid grid-cols-4 gap-4">
-          {listOfMovies.map((movie) => (
-            <div className="border-2 border-0 p-4 rounded-xl">
+          {movies.map((movie) => (
+            <div
+              key={movie.title}
+              className="border-2 border-0 p-4 rounded-xl"
+              onClick={() => handleMovieClick(movie.title)}
+            >
               <div className="flex justify-center pb-3">
                 <Image
                   src="/film-reel.png"
