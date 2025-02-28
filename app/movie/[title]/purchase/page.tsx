@@ -87,6 +87,7 @@ export default function PurchasePage({
     }
 
     console.log("Compra realizada:", { ...data, seats: selectedSeats });
+    // aqui hacer llamdo a una API, por le moentnos era fake de
     router.push("/confirmation");
   };
 
@@ -232,6 +233,13 @@ export default function PurchasePage({
             🛒 Comprar Boletos
           </button>
         </form>
+         {/* 🔹 Botón de Regreso */}
+         <button
+          onClick={() => router.back()}
+          className="mt-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full"
+        >
+          ⬅️ Regresar
+        </button>
       </div>
     </div>
   );
