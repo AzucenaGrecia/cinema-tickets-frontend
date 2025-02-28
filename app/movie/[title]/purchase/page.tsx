@@ -9,19 +9,26 @@ import movies from "../../../../data/movies.json";
 
 const schema = z.object({
   username: z.string().min(1, "El nombre es obligatorio"),
+  userEmail: z.string().email("Ingresa un correo válido"),
   tickets: z.number().min(1, "Debes comprar al menos 1 boleto"),
   date: z.enum(["Hoy", "Mañana", "Pasado mañana"]),
   time: z.enum(["1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM"]),
   seats: z.array(z.string()).min(1, "Debes seleccionar al menos un asiento"),
 });
 
-export default function PurchasePage({ params }: { params: { title: string } }) {
+export default function PurchasePage({
+  params,
+}: {
+  params: { title: string };
+}) {
   const router = useRouter();
   const decodedTitle = decodeURIComponent(params.title);
   const movie = movies.find((m) => m.title === decodedTitle);
 
   if (!movie) {
-    return <p className="text-red-500 text-center mt-10">Película no encontrada.</p>;
+    return (
+      <p className="text-red-500 text-center mt-10">Película no encontrada.</p>
+    );
   }
 
   const ticketPrice = movie.price; // Precio único por película
@@ -33,12 +40,14 @@ export default function PurchasePage({ params }: { params: { title: string } }) 
     register,
     handleSubmit,
     watch,
+    setValue,
     control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
       username: "",
+      userEmail: "",
       tickets: 1,
       date: "Hoy",
       time: "1 PM",
@@ -55,14 +64,28 @@ export default function PurchasePage({ params }: { params: { title: string } }) 
   };
 
   const handleSeatSelection = (seat: string) => {
-    if (selectedSeats.includes(seat)) {
-      setSelectedSeats(selectedSeats.filter((s) => s !== seat));
-    } else if (selectedSeats.length < tickets) {
-      setSelectedSeats([...selectedSeats, seat]);
-    }
+    setSelectedSeats((prevSeats) => {
+      let updatedSeats;
+
+      if (prevSeats.includes(seat)) {
+        updatedSeats = prevSeats.filter((s) => s !== seat);
+      } else if (prevSeats.length < tickets) {
+        updatedSeats = [...prevSeats, seat];
+      } else {
+        updatedSeats = prevSeats;
+      }
+
+      setValue("seats", updatedSeats); // Sincroniza con el formulario
+      return updatedSeats;
+    });
   };
 
   const onSubmit = (data: any) => {
+    if (selectedSeats.length === 0) {
+      alert("Debes seleccionar al menos un asiento.");
+      return;
+    }
+
     console.log("Compra realizada:", { ...data, seats: selectedSeats });
     router.push("/confirmation");
   };
@@ -81,23 +104,42 @@ export default function PurchasePage({ params }: { params: { title: string } }) 
             className="w-full border p-2 rounded mt-1"
             placeholder="Ingresa tu nombre"
           />
-          {errors.username && <p className="text-red-500">{errors.username.message}</p>}
+          {errors.username && (
+            <p className="text-red-500">{errors.username.message}</p>
+          )}
+          
+          {/* Nuevo Campo de Correo Electrónico */}
+          <label className="block mt-4 text-lg font-semibold">
+            📧 Correo Electrónico:
+          </label>
+          <input
+            {...register("userEmail")}
+            className="w-full border p-2 rounded mt-1"
+            placeholder="Ingresa tu email"
+            type="email"
+          />
 
-          <label className="block mt-4 text-lg font-semibold">🎬 Película:</label>
+          <label className="block mt-4 text-lg font-semibold">
+            🎬 Película:
+          </label>
           <input
             value={movie.title}
             disabled
             className="w-full border p-2 rounded mt-1 bg-gray-100"
           />
 
-          <label className="block mt-4 text-lg font-semibold">💲 Precio unitario:</label>
+          <label className="block mt-4 text-lg font-semibold">
+            💲 Precio unitario:
+          </label>
           <input
-            value={`$${ticketPrice}`}
+            value={`${ticketPrice} PEN`}
             disabled
             className="w-full border p-2 rounded mt-1 bg-gray-100"
           />
 
-          <label className="block mt-4 text-lg font-semibold">🎟️ Número de boletos:</label>
+          <label className="block mt-4 text-lg font-semibold">
+            🎟️ Número de boletos:
+          </label>
           <input
             type="number"
             {...register("tickets", { valueAsNumber: true })}
@@ -105,24 +147,38 @@ export default function PurchasePage({ params }: { params: { title: string } }) 
             min={1}
             onChange={handleTicketChange}
           />
-          {errors.tickets && <p className="text-red-500">{errors.tickets.message}</p>}
+          {errors.tickets && (
+            <p className="text-red-500">{errors.tickets.message}</p>
+          )}
 
-          <label className="block mt-4 text-lg font-semibold">💰 Precio total:</label>
+          <label className="block mt-4 text-lg font-semibold">
+            💰 Precio total:
+          </label>
           <input
-            value={`$${totalPrice}`}
+            value={`${totalPrice} PEN`}
             disabled
             className="w-full border p-2 rounded mt-1 bg-gray-100"
           />
 
-          <label className="block mt-4 text-lg font-semibold">📅 Selecciona fecha:</label>
-          <select {...register("date")} className="w-full border p-2 rounded mt-1">
+          <label className="block mt-4 text-lg font-semibold">
+            📅 Selecciona fecha:
+          </label>
+          <select
+            {...register("date")}
+            className="w-full border p-2 rounded mt-1"
+          >
             <option value="Hoy">Hoy</option>
             <option value="Mañana">Mañana</option>
             <option value="Pasado mañana">Pasado mañana</option>
           </select>
 
-          <label className="block mt-4 text-lg font-semibold">⏰ Selecciona horario:</label>
-          <select {...register("time")} className="w-full border p-2 rounded mt-1">
+          <label className="block mt-4 text-lg font-semibold">
+            ⏰ Selecciona horario:
+          </label>
+          <select
+            {...register("time")}
+            className="w-full border p-2 rounded mt-1"
+          >
             <option value="1 PM">1 PM</option>
             <option value="2 PM">2 PM</option>
             <option value="3 PM">3 PM</option>
@@ -132,23 +188,42 @@ export default function PurchasePage({ params }: { params: { title: string } }) 
             <option value="7 PM">7 PM</option>
           </select>
 
-          <label className="block mt-4 text-lg font-semibold">🪑 Selecciona tus asientos:</label>
-          <div className="grid grid-cols-5 gap-2 mt-2">
-            {availableSeats.map((seat) => (
-              <button
-                key={seat}
-                type="button"
-                className={`p-2 border rounded w-14 ${
-                  selectedSeats.includes(seat) ? "bg-green-500 text-white" : "bg-gray-200"
-                }`}
-                onClick={() => handleSeatSelection(seat)}
-                disabled={selectedSeats.length >= tickets && !selectedSeats.includes(seat)}
-              >
-                {seat}
-              </button>
-            ))}
-          </div>
-          {errors.seats && <p className="text-red-500">{errors.seats.message}</p>}
+          <label className="block mt-4 text-lg font-semibold">
+            🪑 Selecciona tus asientos:
+          </label>
+          <Controller
+            name="seats"
+            control={control}
+            render={({ field }) => (
+              <div className="grid grid-cols-5 gap-2 mt-2">
+                {availableSeats.map((seat) => (
+                  <button
+                    key={seat}
+                    type="button"
+                    className={`p-2 border rounded w-14 ${
+                      selectedSeats.includes(seat)
+                        ? "bg-green-500 text-white"
+                        : "bg-gray-200"
+                    }`}
+                    onClick={() => {
+                      handleSeatSelection(seat);
+                      field.onChange(selectedSeats); // Sincroniza con react-hook-form
+                    }}
+                    disabled={
+                      selectedSeats.length >= tickets &&
+                      !selectedSeats.includes(seat)
+                    }
+                  >
+                    {seat}
+                  </button>
+                ))}
+              </div>
+            )}
+          />
+
+          {errors.seats && (
+            <p className="text-red-500">{errors.seats.message}</p>
+          )}
 
           <button
             type="submit"
