@@ -3,6 +3,7 @@
 import Image from "next/image";
 import movies from "../data/movies.json";
 import { useRouter } from "next/navigation";
+
 export default function Page() {
   const router = useRouter();
 
@@ -11,30 +12,33 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col gap-12 p-20 ">
-      <div className=" text-cyan-900 text-5xl text-center">
-        ¡Bienvenido a CineTicket Pro! 🎬
-      </div>
+    <div className="flex flex-col items-center justify-center min-h-screen p-10">
+      <h1 className="text-cyan-900 text-5xl font-bold text-center mb-8">
+        🎬 ¡Bienvenido a CineTicket Pro!
+      </h1>
 
-      <div className="bg-fuchsia-50 self-center p-8 rounded-xl w-150">
-        <p className="text-2xl pb-8">Selecciona que pelicula veras hoy:</p>
-        <div className="grid grid-cols-4 gap-4">
+      <div className="bg-white p-10 rounded-xl shadow-lg w-3/4">
+        <p className="text-2xl text-gray-700 text-center mb-6">
+          Selecciona la película que verás hoy:
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {movies.map((movie) => (
             <div
               key={movie.title}
-              className="border-2 border-0 p-4 rounded-xl"
+              className="p-4 bg-gray-100 rounded-xl shadow-md hover:bg-gray-200 transition cursor-pointer flex flex-col items-center"
               onClick={() => handleMovieClick(movie.title)}
             >
-              <div className="flex justify-center pb-3">
-                <Image
-                  src="/film-reel.png"
-                  width={50}
-                  height={50}
-                  alt="Picture of the movie"
-                />
-              </div>
-
-              <div className="text-1xl text-center">{movie.title}</div>
+              <Image
+                src="/film-reel.png"
+                width={70}
+                height={70}
+                alt="Movie Icon"
+                className="mb-3"
+              />
+              <p className="text-lg font-semibold text-cyan-900 text-center">
+                {movie.title}
+              </p>
             </div>
           ))}
         </div>
