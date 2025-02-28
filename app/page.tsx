@@ -1,10 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import movies from "../data/movies.json";
+// import movies from "../data/movies.json";
 import { useRouter } from "next/navigation";
+import useMovies from "../hooks/useMovies";
 
 export default function Page() {
+  const { movies, loading, error } = useMovies();
+  console.log('movies!!', movies)
+
+  if (loading) return <p>🎬 Cargando películas...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+  
   const router = useRouter();
 
   const handleMovieClick = (title: string) => {
