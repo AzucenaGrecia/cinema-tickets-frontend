@@ -21,11 +21,12 @@ export default function useMovies() {
       setLoading(true);
       try {
         // 🔹 Reemplaza esta línea cuando tengas la API real
-        // const response = await axios.get("https://tu-api.com/movies");
+        //const response = await axios.get("localhost:5003/api/movie");
+        // console.log("RESPONSE!!!! ", response)
         // setMovies(response.data);
 
         // 🔹 Simulación de datos (por ahora)
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simula un retraso de 1s
+         await new Promise((resolve) => setTimeout(resolve, 1000)); // Simula un retraso de 1s
         setMovies(moviesList);
       } catch (error) {
         setError("Error al obtener las películas. Inténtalo más tarde.");

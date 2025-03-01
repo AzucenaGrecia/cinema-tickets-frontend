@@ -8,6 +8,8 @@ import useMovies from "../hooks/useMovies";
 export default function Page() {
   const { movies, loading, error } = useMovies();
 
+  console.log('movies', movies)
+
   if (loading) return <p>🎬 Cargando películas...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
   

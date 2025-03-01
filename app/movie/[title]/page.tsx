@@ -4,7 +4,11 @@ import movies from "../../../data/movies.json";
 import { notFound, useRouter } from "next/navigation";
 import Image from "next/image";
 
-export default function MoviePage({ params }: { params: { title: string } }) {
+export default function MoviePage({
+  params,
+}: {
+  params: { title: string };
+}) {
   const router = useRouter();
   const decodedTitle = decodeURIComponent(params.title);
   const movie = movies.find((m) => m.title === decodedTitle);

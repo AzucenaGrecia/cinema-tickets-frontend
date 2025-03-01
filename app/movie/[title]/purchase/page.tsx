@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
 import movies from "../../../../data/movies.json";
+import axios from "axios";
 
 const schema = z.object({
   username: z.string().min(1, "El nombre es obligatorio"),
@@ -35,6 +36,7 @@ export default function PurchasePage({
   const [totalPrice, setTotalPrice] = useState(ticketPrice);
   const availableSeats = Array.from({ length: 20 }, (_, i) => `A${i + 1}`);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false); // Estado para mostrar "Cargando..."
 
   const {
     register,
@@ -80,15 +82,36 @@ export default function PurchasePage({
     });
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     if (selectedSeats.length === 0) {
       alert("Debes seleccionar al menos un asiento.");
       return;
     }
 
-    console.log("Compra realizada:", { ...data, seats: selectedSeats });
-    // aqui hacer llamdo a una API, por le moentnos era fake de
-    router.push("/confirmation");
+    setLoading(true); // Muestra "Cargando..."
+
+    const purchaseData = {
+      ...data,
+      seats: selectedSeats,
+      totalPrice,
+      movie: movie.title,
+    };
+
+    try {
+      // Simulación de API con setTimeout
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Hacer el POST (aquí cambiar la URL cuando tengas una API real)
+      //   await axios.post("https://fakeapi.com/purchase", purchaseData);
+      
+      alert("Compra realizada con éxito!");
+      router.push("/confirmation");
+    } catch (error) {
+      console.error("Error al realizar la compra:", error);
+      alert("Ocurrió un error al procesar la compra. Inténtalo de nuevo.");
+    } finally {
+      setLoading(false); // Oculta "Cargando..."
+    }
   };
 
   return (
@@ -108,7 +131,7 @@ export default function PurchasePage({
           {errors.username && (
             <p className="text-red-500">{errors.username.message}</p>
           )}
-          
+
           {/* Nuevo Campo de Correo Electrónico */}
           <label className="block mt-4 text-lg font-semibold">
             📧 Correo Electrónico:
@@ -230,11 +253,11 @@ export default function PurchasePage({
             type="submit"
             className="mt-6 w-full bg-cyan-900 text-white p-3 rounded-xl hover:bg-cyan-700 transition"
           >
-            🛒 Comprar Boletos
+            {loading ? "Procesando..." : "🛒 Comprar Boletos"}
           </button>
         </form>
-         {/* 🔹 Botón de Regreso */}
-         <button
+        {/* 🔹 Botón de Regreso */}
+        <button
           onClick={() => router.back()}
           className="mt-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full"
         >
